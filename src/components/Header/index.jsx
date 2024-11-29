@@ -2,14 +2,12 @@ import logo from '../../assets/logo-dio.png'
 import {Button} from '../Button'
 
 import {
-  BuscarInputContainer,
-  Column,
+  BuscarInputContainer,  
   Container,
   Input,
   Menu,
   MenuRight,
-  Row,
-  UserPicture,
+  Row,  
   Wrapper,
 } from "./styles";
 
