@@ -1,4 +1,4 @@
-import { MdEmail, MdLock } from "react-icons/md";
+import { MdEmail, MdLock, MdPerson } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,8 +10,7 @@ import { api } from "../../services/api";
 import {
   Column,
   Container,
-  CriarText,
-  EsqueciText,
+  Log,
   Row,
   SubLogin,
   Title,
@@ -20,9 +19,14 @@ import {
 } from "./styles";
 import { Input } from "../../components/Input";
 
+
 const schema = yup
   .object()
   .shape({
+    name: yup
+      .string()
+      .min(3, "No minimo 3 caracteres")
+      .required("O campo nome é obrigatório."),
     email: yup
       .string()
       .email("email não é valido")
@@ -34,8 +38,13 @@ const schema = yup
   })
   .required();
 
-const Login = () => {
+const Cadastro = () => {
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/login");
+  };
+ 
 
   const {
     control,
@@ -45,21 +54,6 @@ const Login = () => {
     resolver: yupResolver(schema),
     mode: "onChange",
   });
-
-  const onSubmit = async (formData) => {
-    try {
-      const { data } = await api.get(
-        `users?email=${formData.email}&senha=${formData.password}`
-      );
-      if (data.length && data[0].id) {
-        navigate("/feed");
-        return;
-      }
-      alert("E-mail ou senha inválidos");
-    } catch {
-      alert("Houve um erro, tente novamente");
-    }
-  };
 
   return (
     <>
@@ -73,9 +67,16 @@ const Login = () => {
         </Column>
         <Column>
           <Wrapper>
-            <TitleLogin>Faça seu cadastro</TitleLogin>
-            <SubLogin>Faça seu Login e make the change._</SubLogin>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <TitleLogin>Comece agora grátis</TitleLogin>
+            <SubLogin>Crie sua conta e make the change._</SubLogin>
+            <form onSubmit={handleSubmit()}>
+              <Input
+                name="name"
+                errorMessage={errors?.name?.message}
+                control={control}
+                placeholder="Nome Completo"
+                leftIcon={<MdPerson />}
+              />
               <Input
                 name="email"
                 errorMessage={errors?.email?.message}
@@ -88,15 +89,24 @@ const Login = () => {
                 errorMessage={errors?.password?.message}
                 control={control}
                 placeholder="Senha"
-                type="password"
+                type="password"                
                 leftIcon={<MdLock />}
               />
-              <Button title="Entrar" variant="secondary" type="submit" />
+              <Button
+                title="Criar minha conta"
+                variant="secondary"
+                type="submit"
+              />
             </form>
             <Row>
-              <EsqueciText>Esqueci meu e-mail</EsqueciText>
-              <CriarText>Criar conta</CriarText>
+              <SubLogin>
+                Ao clicar em "criar minha conta grátis", declaro que aceito as
+                Políticas de Privacidade e os Termos de Uso da DIO.
+              </SubLogin>
             </Row>
+            <Log onClick={handleClick}>
+              Já tenho conta. <span>Fazer login</span>
+            </Log>
           </Wrapper>
         </Column>
       </Container>
@@ -104,4 +114,4 @@ const Login = () => {
   );
 };
 
-export { Login };
+export { Cadastro };

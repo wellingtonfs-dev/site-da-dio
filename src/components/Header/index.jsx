@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo-dio.png'
 import {Button} from '../Button'
 
@@ -12,6 +13,16 @@ import {
 } from "./styles";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleClickSignIn = () => {
+    navigate("/login");
+  };
+
+  const handleClick = () => {
+    navigate("/cadastro");
+  };
+
   return (
     <Wrapper>
       <Container>
@@ -25,9 +36,9 @@ const Header = () => {
             <Menu>Global</Menu>
         </Row>
         <Row>
-            <MenuRight href="#">Home</MenuRight>
-            <Button title='Entrar'/>
-            <Button title='Cadastrar'/>  
+            <MenuRight href="/">Home</MenuRight>
+            <Button title='Entrar' onClick={handleClickSignIn}/>
+            <Button title='Cadastrar' onClick={handleClick}/>  
         </Row>            
       </Container>
     </Wrapper>
