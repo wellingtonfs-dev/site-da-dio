@@ -19,6 +19,7 @@ import {
   Wrapper,
 } from "./styles";
 import { Input } from "../../components/Input";
+import { IFormData } from "./types";
 
 const schema = yup
   .object()
@@ -37,16 +38,21 @@ const schema = yup
 const Login = () => {
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    navigate("/cadastro");
+  };
+ 
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IFormData>({
     resolver: yupResolver(schema),
     mode: "onChange",
   });
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async (formData: IFormData) => {
     try {
       const { data } = await api.get(
         `users?email=${formData.email}&senha=${formData.password}`
@@ -95,7 +101,7 @@ const Login = () => {
             </form>
             <Row>
               <EsqueciText>Esqueci meu e-mail</EsqueciText>
-              <CriarText>Criar conta</CriarText>
+              <CriarText><span onClick={handleClick}>Criar conta</span></CriarText>
             </Row>
           </Wrapper>
         </Column>

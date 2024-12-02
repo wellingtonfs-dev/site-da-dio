@@ -69,7 +69,7 @@ const Cadastro = () => {
           <Wrapper>
             <TitleLogin>Comece agora grátis</TitleLogin>
             <SubLogin>Crie sua conta e make the change._</SubLogin>
-            <form onSubmit={handleSubmit()}>
+            <form>
               <Input
                 name="name"
                 errorMessage={errors?.name?.message}

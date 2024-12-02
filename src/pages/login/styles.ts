@@ -72,4 +72,8 @@ export const CriarText = styled.p`
     font-size: 14px;       
     line-height: 19px;
     color: #e23dd7;
+
+    span:hover{
+        cursor: pointer;
+    }
 `
