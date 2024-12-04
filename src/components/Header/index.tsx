@@ -11,9 +11,15 @@ import {
   Row,  
   Wrapper,
 } from "./styles";
-import { IHeader } from './types';
+import { AuthContext } from '../../context/auth';
+import { useContext } from 'react';
+import { UserPicture } from '../UserInfo/styles';
 
-const Header = ({autenticado}:IHeader) => {
+
+const Header = () => {
+
+  const {user, handleLogout} = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const handleClickSignIn = () => {
@@ -33,7 +39,7 @@ const Header = ({autenticado}:IHeader) => {
       <Container>
         <Row>
             <img className='logo' onClick={handleClickHome} src={logo} alt='Logo da Dio' />
-            {autenticado ? (
+            {user.id ? (
               <>
               <BuscarInputContainer>
                   <Input placeholder='Buscar' />                  
@@ -44,13 +50,18 @@ const Header = ({autenticado}:IHeader) => {
             ): null}
         </Row>
         <Row>
-          {autenticado ? (
+          {user.id ? (
+            <>
+            <UserPicture src='https://avatars.githubusercontent.com/u/176322856?v=4' />
+            <a onClick={handleLogout} href="/">Sair</a>              
+            </>
+          ) : (
             <>
               <MenuRight href="/">Home</MenuRight>
               <Button title='Entrar' onClick={handleClickSignIn}/>
               <Button title='Cadastrar' onClick={handleClick}/>  
             </>
-          ) : null}
+          )}
         </Row>            
       </Container>
     </Wrapper>

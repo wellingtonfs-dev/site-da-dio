@@ -20,6 +20,8 @@ import {
 } from "./styles";
 import { Input } from "../../components/Input";
 import { IFormData } from "./types";
+import { useContext } from "react";
+import { AuthContext } from "../../context/auth";
 
 const schema = yup
   .object()
@@ -36,6 +38,8 @@ const schema = yup
   .required();
 
 const Login = () => {
+  const {handleLogin} = useContext(AuthContext)
+
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -53,18 +57,7 @@ const Login = () => {
   });
 
   const onSubmit = async (formData: IFormData) => {
-    try {
-      const { data } = await api.get(
-        `users?email=${formData.email}&senha=${formData.password}`
-      );
-      if (data.length && data[0].id) {
-        navigate("/feed");
-        return;
-      }
-      alert("E-mail ou senha inválidos");
-    } catch {
-      alert("Houve um erro, tente novamente");
-    }
+    handleLogin(formData)
   };
 
   return (
